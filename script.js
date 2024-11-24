@@ -110,7 +110,7 @@ function GameController(
         printNewRound();
         return;
       }
-      if (isDraw(board)) {
+      if (isDraw()) {
         console.log("It's a draw!");
         printNewRound();
         return; 
@@ -120,13 +120,54 @@ function GameController(
     }
     
   }
-  // initial board
   printNewRound();
 
   return{
     playRound,
-    getActivePlayer
+    getActivePlayer,
+    getBoard: board.getBoard
   }
 }
-const game = GameController();
 
+function ScreenController() {
+  const game = GameController();
+  const playerTurnDiv = document.querySelector('.turn');
+  const boardDiv = document.querySelector('.board');
+
+  const updateScreen = () => {
+    boardDiv.textContent = "";
+    const board = game.getBoard();
+    const activePlayer = game.getActivePlayer();
+    playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
+ 
+    board.forEach((row, indexRow) => {  // Correct the order of arguments
+      row.forEach((cell, indexCol) => {
+        
+        const cellButton = document.createElement("button");
+        cellButton.classList.add("cell");
+        
+        cellButton.dataset.row = indexRow;
+        cellButton.dataset.column = indexCol;
+        cellButton.textContent = cell.getValue();
+        boardDiv.appendChild(cellButton);
+      });
+    });
+    
+  }
+
+
+  function clickHandlerBoard(e) {
+    const selectedRow = e.target.dataset.row;
+    const selectedColumn = e.target.dataset.column;
+    
+    if (!selectedColumn && !selectedRow) return;
+    
+    game.playRound(selectedRow, selectedColumn);
+    updateScreen();
+  }
+  boardDiv.addEventListener("click", clickHandlerBoard);
+
+  updateScreen();
+}
+
+ScreenController();
