@@ -72,14 +72,49 @@ function GameController(
     console.log(`${getActivePlayer().name}'s turn.`);
   };
 
+  const allEqual = (arr) => arr.every((value) => value !== 0 && value === arr[0]);
+  
+  const isDraw = () => {
+    return board.getBoard().every((row) =>
+      row.every((cell) => cell.getValue() !== 0)
+    );
+  };
+
+  const checkWin = () => {
+    const grid = board.getBoard();
+    for (let row of grid) {
+      if (allEqual(row.map((cell) => cell.getValue()))) return true;     
+    }
+
+    for (let col = 0; col < 3; col++) {
+      const column = grid.map((row) => row[col].getValue());
+      if (allEqual(column)) return true;  
+    }
+
+    const diagonal1 = [0, 1, 2].map((i) => grid[i][i].getValue());
+    const diagonal2 = [0, 1, 2].map((i) => grid[i][2 - i].getValue()); 
+    if (allEqual(diagonal1) || allEqual(diagonal2)) return true; 
+    
+    return false;
+  }
+
   const playRound = (row, column) => {
-    // Drop a token for the current player
     console.log(
       `Marking ${getActivePlayer().name}'s token into row ${row}, column ${column}`
     );
     const moveValid = board.placeMark(row, column, getActivePlayer().token);
 
     if(moveValid){
+      if(checkWin()){
+        console.log(`${getActivePlayer().name} wins!`);
+        printNewRound();
+        return;
+      }
+      if (isDraw(board)) {
+        console.log("It's a draw!");
+        printNewRound();
+        return; 
+      }
       switchPlayerTurn();
       printNewRound();
     }
