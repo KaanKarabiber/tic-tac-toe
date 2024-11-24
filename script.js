@@ -16,8 +16,12 @@ function Gameboard() {
       const availableCells = board.map((row) => row.filter((cell) => cell.getValue() === 0));
    
       if (!availableCells.length) return;
-      
-      board[row][column].addToken(player);
+      if (board[row][column].getValue() !== 0) {
+        console.log("Invalid move! Cell is already occupied.");
+        return false; 
+      }
+      board[row][column].addToken(player);    
+      return true;
     }
     
     const printBoard = () => {
@@ -34,11 +38,10 @@ function Cell() {
   };
 
   const getValue = () => value;
-  // const setValue = (x) => value = x;
+  
   return {
     addToken,
-    getValue,
-    // setValue
+    getValue
   };
 }
 function GameController(
@@ -74,10 +77,13 @@ function GameController(
     console.log(
       `Marking ${getActivePlayer().name}'s token into row ${row}, column ${column}`
     );
-    board.placeMark(row, column, getActivePlayer().token);
+    const moveValid = board.placeMark(row, column, getActivePlayer().token);
 
-    switchPlayerTurn();
-    printNewRound();
+    if(moveValid){
+      switchPlayerTurn();
+      printNewRound();
+    }
+    
   }
   // initial board
   printNewRound();
