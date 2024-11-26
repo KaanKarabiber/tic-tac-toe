@@ -47,8 +47,8 @@ function Cell() {
 }
 
 function GameController(
-  playerOneName = "Player One",
-  playerTwoName = "Player Two"
+  playerOneName = "X",
+  playerTwoName = "O"
 ) {
   const board = Gameboard();
   const players = [
@@ -127,7 +127,9 @@ function GameController(
   return{
     playRound,
     getActivePlayer,
-    getBoard: board.getBoard
+    getBoard: board.getBoard,
+    checkWin,
+    isDraw
   }
 }
 
@@ -154,10 +156,35 @@ function ScreenController() {
         const icons = document.createElement("img");
         if (cell.getValue() === 1) icons.src = "icons/close-thick.svg";
         else if (cell.getValue() === 2)  icons.src = "icons/circle-outline.svg";
-        cellButton.append(icons);
+        cellButton.append(icons);       
       });
-    });
-    
+    });   
+    if (game.checkWin()) {
+      if (!document.querySelector(".end-game-message")) { 
+        const mambo = document.createElement("p");
+        const mamboDiv = document.createElement("div");
+  
+        mambo.classList.add("end-game-message");
+        mambo.textContent = `${game.getActivePlayer().name} wins!`;
+  
+        mamboDiv.append(mambo);
+        document.body.appendChild(mamboDiv);
+      }
+  
+      // Disable all buttons once the game is over
+      const buttons = document.querySelectorAll(".cell");
+      buttons.forEach((button) => button.disabled = true);
+    }
+    if (game.isDraw()){
+      const mambo = document.createElement("p");
+      const mamboDiv = document.createElement("div");
+  
+      mambo.classList.add("end-game-message");
+      mambo.textContent = `Draw!`;
+      
+      document.body.appendChild(mamboDiv);
+      mamboDiv.append(mambo);
+    }
   }
 
   function clickHandlerBoard(e) {
@@ -173,7 +200,11 @@ function ScreenController() {
     const newGame = GameController();
     game.playRound = newGame.playRound; 
     game.getActivePlayer = newGame.getActivePlayer;
-    game.getBoard = newGame.getBoard; 
+    game.getBoard = newGame.getBoard;
+    game.checkWin = newGame.checkWin;
+    game.isDraw = newGame.isDraw;
+    const EndGameMessage = document.querySelector(".end-game-message");
+    if (EndGameMessage) EndGameMessage.remove();
     updateScreen();
   }
 
