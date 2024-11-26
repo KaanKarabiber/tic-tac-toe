@@ -30,6 +30,7 @@ function Gameboard() {
     };
     return {getBoard, placeMark, printBoard}
 }
+
 function Cell() {
   let value = 0;
 
@@ -44,6 +45,7 @@ function Cell() {
     getValue
   };
 }
+
 function GameController(
   playerOneName = "Player One",
   playerTwoName = "Player Two"
@@ -52,11 +54,11 @@ function GameController(
   const players = [
     {
       name: playerOneName,
-      token: 1
+      token: 1,
     },
     {
       name: playerTwoName,
-      token: 2
+      token: 2,
     }
   ];
   let activePlayer = players[0];
@@ -140,21 +142,22 @@ function ScreenController() {
     const activePlayer = game.getActivePlayer();
     playerTurnDiv.textContent = `${activePlayer.name}'s turn...`
  
-    board.forEach((row, indexRow) => {  // Correct the order of arguments
-      row.forEach((cell, indexCol) => {
-        
+    board.forEach((row, indexRow) => {  
+      row.forEach((cell, indexCol) => {   
         const cellButton = document.createElement("button");
         cellButton.classList.add("cell");
-        
         cellButton.dataset.row = indexRow;
         cellButton.dataset.column = indexCol;
-        cellButton.textContent = cell.getValue();
         boardDiv.appendChild(cellButton);
+
+        const icons = document.createElement("img");
+        if (cell.getValue() === 1) icons.src = "icons/close-thick.svg";
+        else if (cell.getValue() === 2)  icons.src = "icons/circle-outline.svg";
+        cellButton.append(icons);
       });
     });
     
   }
-
 
   function clickHandlerBoard(e) {
     const selectedRow = e.target.dataset.row;
