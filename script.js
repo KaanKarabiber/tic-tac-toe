@@ -135,6 +135,7 @@ function ScreenController() {
   const game = GameController();
   const playerTurnDiv = document.querySelector('.turn');
   const boardDiv = document.querySelector('.board');
+  const restartButton = document.querySelector('.restart');
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -168,7 +169,16 @@ function ScreenController() {
     game.playRound(selectedRow, selectedColumn);
     updateScreen();
   }
+  function restartGame() {
+    const newGame = GameController();
+    game.playRound = newGame.playRound; 
+    game.getActivePlayer = newGame.getActivePlayer;
+    game.getBoard = newGame.getBoard; 
+    updateScreen();
+  }
+
   boardDiv.addEventListener("click", clickHandlerBoard);
+  restartButton.addEventListener("click", restartGame);
 
   updateScreen();
 }
