@@ -158,7 +158,8 @@ function ScreenController() {
         else if (cell.getValue() === 2)  icons.src = "icons/circle-outline.svg";
         cellButton.append(icons);       
       });
-    });   
+    });
+    const buttonContainer = document.querySelector(".restart");   
     if (game.checkWin()) {
       if (!document.querySelector(".end-game-message")) { 
         const endGameMessage = document.createElement("p");
@@ -168,7 +169,7 @@ function ScreenController() {
         endGameMessage.textContent = `${game.getActivePlayer().name} wins!`;
   
         endGameMessageDiv.append(endGameMessage);
-        document.body.appendChild(endGameMessageDiv);
+        buttonContainer.insertAdjacentElement("afterend", endGameMessageDiv);
       }
   
       // Disable all buttons once the game is over
@@ -182,8 +183,8 @@ function ScreenController() {
       endGameMessage.classList.add("end-game-message");
       endGameMessage.textContent = `Draw!`;
       
-      document.body.appendChild(endGameMessageDiv);
       endGameMessageDiv.append(endGameMessage);
+      buttonContainer.insertAdjacentElement("afterend", endGameMessageDiv);
     }
   }
 

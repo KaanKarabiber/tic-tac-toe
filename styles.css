@@ -66,3 +66,20 @@ body{
   box-shadow: 0 0px 20px rgba(0, 0, 0, 0.9);
   background-color: black;
 }
+.end-game-message{
+  font-size: 30px;
+}
+footer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: auto;
+  background-color: #f0f9ff;
+  font-size: large;
+}
+.footer-img{
+  margin-left: 0.5rem;
+  height: 3rem;
+  width: 3rem;
+}
