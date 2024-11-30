@@ -175,7 +175,7 @@ function ScreenController() {
       const buttons = document.querySelectorAll(".cell");
       buttons.forEach((button) => button.disabled = true);
     }
-    if (game.isDraw()){
+    if (game.isDraw() && !game.checkWin()){
       const endGameMessage = document.createElement("p");
       const endGameMessageDiv = document.createElement("div");
   
