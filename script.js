@@ -161,14 +161,14 @@ function ScreenController() {
     });   
     if (game.checkWin()) {
       if (!document.querySelector(".end-game-message")) { 
-        const mambo = document.createElement("p");
-        const mamboDiv = document.createElement("div");
+        const endGameMessage = document.createElement("p");
+        const endGameMessageDiv = document.createElement("div");
   
-        mambo.classList.add("end-game-message");
-        mambo.textContent = `${game.getActivePlayer().name} wins!`;
+        endGameMessage.classList.add("end-game-message");
+        endGameMessage.textContent = `${game.getActivePlayer().name} wins!`;
   
-        mamboDiv.append(mambo);
-        document.body.appendChild(mamboDiv);
+        endGameMessageDiv.append(endGameMessage);
+        document.body.appendChild(endGameMessageDiv);
       }
   
       // Disable all buttons once the game is over
@@ -176,14 +176,14 @@ function ScreenController() {
       buttons.forEach((button) => button.disabled = true);
     }
     if (game.isDraw()){
-      const mambo = document.createElement("p");
-      const mamboDiv = document.createElement("div");
+      const endGameMessage = document.createElement("p");
+      const endGameMessageDiv = document.createElement("div");
   
-      mambo.classList.add("end-game-message");
-      mambo.textContent = `Draw!`;
+      endGameMessage.classList.add("end-game-message");
+      endGameMessage.textContent = `Draw!`;
       
-      document.body.appendChild(mamboDiv);
-      mamboDiv.append(mambo);
+      document.body.appendChild(endGameMessageDiv);
+      endGameMessageDiv.append(endGameMessage);
     }
   }
 
